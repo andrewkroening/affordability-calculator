@@ -1,0 +1,6 @@
+pylint
+black
+pandas
+numpy
+streamlit
+altair
