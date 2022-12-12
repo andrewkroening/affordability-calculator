@@ -3,7 +3,7 @@ install:
 		pip install -r requirements.txt
 
 lint:
-	pylint --disable=R,C --extension-pkg-whitelist='pydantic' *.py ./logic/*.py
+	pylint --disable=R,C,unsubscriptable-object --extension-pkg-whitelist='pydantic' *.py ./logic/*.py
 
 format:
 	black *.py ./logic/*.py
