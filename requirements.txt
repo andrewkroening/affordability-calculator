@@ -1,6 +1,7 @@
 pylint
 black
 pandas
+lxml
 numpy
 streamlit
 altair
