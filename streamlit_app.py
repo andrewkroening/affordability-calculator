@@ -56,18 +56,36 @@ today_30 = float(today_30)
 
 st.write("This is where the final conclusion piece will go.")
 
-st.slider("Max Monthly Payment", min_value=0, max_value=10000, step=100, value=5000)
-st.slider("Down Payment", min_value=0, max_value=500000, step=1000, value=100000)
-st.slider(
-    "Mortgage Interest Rate",
-    min_value=0.0,
-    max_value=10.0,
-    step=0.01,
-    value=today_30,
+
+tab1, tab2, tab3, tab4 = st.tabs(
+    ["Parameters", "Price Affordability", "Rate Affordability", "Total Cost Comparison"]
 )
 
-tab1, tab2, tab3 = st.tabs(
-    ["Price Affordability", "Rate Affordability", "Total Cost Comparison"]
-)
+with tab1:
+    max_pay = st.slider(
+        "Max Monthly Payment", min_value=0, max_value=10000, step=100, value=5000
+    )
+    max_down = st.slider(
+        "Down Payment", min_value=0, max_value=500000, step=1000, value=100000
+    )
+    max_rate = st.slider(
+        "Mortgage Interest Rate",
+        min_value=0.0,
+        max_value=10.0,
+        step=0.01,
+        value=today_30,
+    )
 
+with tab2:
+    st.write("This is where the price affordability table will go.")
+    price_table = price_afford_table(3.5, 100000, 30, 500000)
+    st.table(price_table)
+
+with tab3:
+    st.write("This is where the rate affordability table will go.")
+    rate_table = rate_afford_table(3.5, 100000, 30, 500000)
+    st.table(rate_table)
+
+st.markdown("---")
+st.write("This is not going to stay here")
 st.table(today_rates)

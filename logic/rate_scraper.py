@@ -40,7 +40,3 @@ def get_rates():
     rate_data["Years"] = rate_data["Program"].str.extract(r"(\d+)")
 
     return rate_data
-
-
-if __name__ == "__main__":
-    test = get_rates()
