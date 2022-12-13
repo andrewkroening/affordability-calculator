@@ -2,8 +2,9 @@
 
 import streamlit as st
 
-from logic.table_gen import price_afford_table, rate_afford_table
+from logic.table_gen import price_afford_table, rate_afford_table, max_cost
 from logic.rate_scraper import get_rates
+from logic.afford_plot import cost_plot
 
 st.set_page_config(
     page_title="Affordability Calculator",
@@ -54,19 +55,21 @@ today_30 = today_rates["Rate_flt"][1].round(2)
 today_30 = str(today_30)
 today_30 = float(today_30)
 
-st.write("This is where the final conclusion piece will go.")
-
-
 tab1, tab2, tab3, tab4 = st.tabs(
     ["Parameters", "Price Affordability", "Rate Affordability", "Total Cost Comparison"]
 )
 
 with tab1:
+    st.caption("Use these sliders to configure your parameters.")
     max_pay = st.slider(
-        "Max Monthly Payment", min_value=0, max_value=10000, step=100, value=5000
+        "Max Monthly Payment (less taxes and insurance)",
+        min_value=0,
+        max_value=10_000,
+        step=100,
+        value=5_000,
     )
     max_down = st.slider(
-        "Down Payment", min_value=0, max_value=500000, step=1000, value=100000
+        "Down Payment", min_value=0, max_value=500000, step=1_000, value=100_000
     )
     max_rate = st.slider(
         "Mortgage Interest Rate",
@@ -75,17 +78,35 @@ with tab1:
         step=0.01,
         value=today_30,
     )
-
+    max_list = max_cost(max_pay, max_down, max_rate, 30)
+    # st.write(
+    #     f"Based on your maximum monthly payment of \${max_pay:,.0f}, your down payment of \${max_down:,.0f}, and an interest rate of {max_rate}%, your maximum purchase price is \${max_list:,.2f}."
+    # )
+    st.info(
+        f"Based on your parameters, your maximum purchase price is \${max_list:,.2f}."
+    )
 with tab2:
-    st.write("This is where the price affordability table will go.")
-    price_table = price_afford_table(3.5, 100000, 30, 500000)
+    st.caption("This table shows the impact of price changes based on your parameters.")
+    price_table = price_afford_table(max_rate, max_down, 30, max_list)
     st.table(price_table)
 
 with tab3:
-    st.write("This is where the rate affordability table will go.")
-    rate_table = rate_afford_table(3.5, 100000, 30, 500000)
+    st.caption("This table shows the impact of rate changes based on your parameters.")
+    rate_table = rate_afford_table(max_rate, max_down, 30, max_list)
     st.table(rate_table)
+
+with tab4:
+    st.caption(
+        "These graphs show the difference in total costs between different terms."
+    )
+    cost_chart = cost_plot(max_list - max_down, today_rates)
+    st.altair_chart(cost_chart, use_container_width=True)
 
 st.markdown("---")
 st.write("This is not going to stay here")
 st.table(today_rates)
+
+st.caption("Disclaimers")
+st.caption(
+    "Property tax, Homeowner's insurance, and Mortgage insurance are NOT included in these estimates. These very by region, consult your local resources when estimating these costs."
+)

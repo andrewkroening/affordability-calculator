@@ -1,6 +1,19 @@
 """This module calculates the table of affordability."""
 
 import pandas as pd
+import numpy_financial as npf
+
+
+def max_cost(max_pay, max_down, max_rate, term):
+    """This function calculates the maximum purchase price."""
+
+    # Calculate the maximum purchase price using pv
+    max_price = npf.pv(max_rate / 100 / 12, term * 12, max_pay, when="begin")
+
+    # Calculate the maximum principal
+    max_total = max_price - max_down
+
+    return abs(max_total)
 
 
 def mortgage_cost(principal, rate, term):
