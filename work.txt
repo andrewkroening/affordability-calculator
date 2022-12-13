@@ -1,0 +1,16 @@
+change the tabs
+
+parameters up top
+add years
+
+tab1: general output
+tab2: price-rate payment matrix
+tab3: price-rate total cost
+tab4: bar graphs to show cost comparison with tool tip for payment
+
+get rid of the bottom table
+
+logic
+table gen needs to be fixed massively for this
+need to have the current functions go somewhere to be compiled
+have to make it generate the matrix for the heatmaps
