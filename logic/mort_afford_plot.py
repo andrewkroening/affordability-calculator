@@ -39,7 +39,7 @@ def cost_plot(max_list, rate_df):
     return chart
 
 
-def heat_map(cost_matrix):
+def heat_map():
     """This shows a heat map of the total cost of the mortgage for different options"""
 
     # make a copy of the rate_df

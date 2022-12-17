@@ -114,7 +114,7 @@ st.markdown("---")
 table_test = build_rate_price_matrix(today_30, max_list, max_down)
 st.table(table_test)
 
-heat = heat_map(table_test)
+heat = heat_map()
 st.altair_chart(heat, use_container_width=True)
 
 st.caption("Disclaimers")
