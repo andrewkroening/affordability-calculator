@@ -65,7 +65,7 @@ def heat_map():
     # )
 
     # Compute x^2 + y^2 across a 2D grid
-    x, y = np.meshgrid(range(-5, 5), range(-5, 5))
+    x, y = np.meshgrid(range(1, 10), range(1, 10))
     z = x**2 + y**2
 
     # Convert this grid to columnar data expected by Altair
