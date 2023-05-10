@@ -6,7 +6,7 @@ import pandas as pd
 def get_rates():
 
     # getthe rates from the mortgage reports
-    rate_data = pd.read_html("https://themortgagereports.com/today")
+    rate_data = pd.read_html("https://themortgagereports.com/mortgage-rates-now")
     rate_data = rate_data[0]
 
     # rename the columns to Program, Rate, APR, Change
