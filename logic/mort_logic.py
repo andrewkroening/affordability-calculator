@@ -134,25 +134,25 @@ def rate_price_matrix(int_rate, pay_price, down_payment):
     rate_list = [x for x in rate_list if x >= int_rate - 2 and x <= int_rate + 2]
 
     # create a dataframe from the rate_list and price_list
-    rate_price_matrix = pd.DataFrame(columns=rate_list, index=price_list)
+    rp_matrix = pd.DataFrame(columns=rate_list, index=price_list)
 
     # # populate the dataframe with the payment values
     for rate in rate_list:
         for price in price_list:
-            rate_price_matrix.loc[price, rate] = mortgage_cost(
-                price - down_payment, rate, 30
-            )[0]
+            rp_matrix.loc[price, rate] = mortgage_cost(price - down_payment, rate, 30)[
+                0
+            ]
 
     # # convert all values to integers
-    rate_price_matrix = rate_price_matrix.astype(int)
+    rp_matrix = rp_matrix.astype(int)
 
     # # format the index to appear as dollar amounts
-    rate_price_matrix.index = rate_price_matrix.index.map("${:,.0f}".format)
+    rp_matrix.index = rp_matrix.index.map("${:,.0f}".format)
 
     # # format the values to appear as dollar amounts
-    rate_price_matrix = rate_price_matrix.applymap("${:,.0f}".format)
+    rp_matrix = rp_matrix.applymap("${:,.0f}".format)
 
-    return rate_price_matrix
+    return rp_matrix
 
 
 def cost_plot(max_list, rate_df):
@@ -224,7 +224,7 @@ def heat_map(r_p_matrix):
 
     heat_base = alt.Chart(source).encode(alt.Y("Price:O"), alt.X("Rate:O"))
 
-    heat_map = heat_base.mark_rect().encode(alt.Color("Payment:Q"))
+    heat_colors = heat_base.mark_rect().encode(alt.Color("Payment:Q"))
 
     heat_text = heat_base.mark_text(baseline="middle").encode(
         alt.Text("Payment:Q", format=".0f"),
@@ -233,6 +233,6 @@ def heat_map(r_p_matrix):
         ),
     )
 
-    heat_chart = heat_map + heat_text
+    heat_chart = heat_colors + heat_text
 
     return heat_chart

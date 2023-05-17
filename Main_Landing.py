@@ -5,9 +5,9 @@ import streamlit as st
 from logic.mort_logic import (
     get_rates,
     max_cost,
-    mortgage_cost,
+    # mortgage_cost,
     rate_price_matrix,
-    cost_plot,
+    # cost_plot,
     heat_map,
 )
 
