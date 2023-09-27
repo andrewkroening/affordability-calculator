@@ -7,23 +7,22 @@ import numpy_financial as npf
 
 
 def get_rates():
-    """Gets the daily mortgage rates from The Mortgage Reports
+    """Gets the daily mortgage rates from Bankrate
 
     Returns:
         rate_data (DataFrame): A DataFrame of the daily mortgage rates"""
 
-    # getthe rates from the mortgage reports
-    rate_data = pd.read_html("https://themortgagereports.com/mortgage-rates-now")
-    rate_data = rate_data[0]
+    # getthe rates
+    rate_data = pd.read_html(
+        "https://www.bankrate.com/mortgages/mortgage-rates/#mortgage-industry-insights"
+    )
+    rate_data = rate_data[1]
 
     # rename the columns to Program, Rate, APR, Change
-    rate_data.columns = ["Program", "Rate", "APR", "Change"]
+    rate_data.columns = ["Product", "Rate", "APR"]
 
     # drop nas
     rate_data.dropna(inplace=True)
-
-    # filter rate data to include only columns with a % in the rate column
-    rate_data = rate_data[rate_data["Rate"].str.contains("%")]
 
     # make a column with the rate as a float
     rate_data["Rate_flt"] = rate_data["Rate"].astype(str)
@@ -43,8 +42,8 @@ def get_rates():
     # convert the rate column to a float
     rate_data["APR_flt"] = rate_data["APR_flt"].astype(float)
 
-    # make a years column
-    rate_data["Years"] = rate_data["Program"].str.extract(r"(\d+)")
+    # make a years column with first two characters from product
+    rate_data["Years"] = rate_data["Product"].str[:2]
 
     return rate_data
 
