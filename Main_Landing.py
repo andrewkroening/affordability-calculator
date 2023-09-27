@@ -5,9 +5,9 @@ import streamlit as st
 from logic.mort_logic import (
     get_rates,
     max_cost,
-    mortgage_cost,
+    # mortgage_cost,
     rate_price_matrix,
-    cost_plot,
+    # cost_plot,
     heat_map,
 )
 
@@ -30,24 +30,24 @@ today_30 = float(today_30)
 st.sidebar.title("Today's Rates")
 
 for index, row in today_rates.iterrows():
-    if row["Change"] != "Unchanged":
-        st.sidebar.metric(
-            label=row["Program"],
-            value=f"{row['Rate']}",
-            delta=f"{row['Change']}",
-            delta_color="inverse",
-        )
-    else:
-        st.sidebar.metric(
-            label=row["Program"],
-            value=f"{row['Rate']}",
-            delta_color="inverse",
-        )
-        st.sidebar.caption("Unchanged")
+    # if row["Change"] != "Unchanged":
+    #     st.sidebar.metric(
+    #         label=row["Program"],
+    #         value=f"{row['Rate']}",
+    #         delta=f"{row['Change']}",
+    #         delta_color="inverse",
+    #     )
+    # else:
+    st.sidebar.metric(
+        label=row["Product"],
+        value=f"{row['Rate']}",
+        delta_color="inverse",
+    )
+    # st.sidebar.caption("Unchanged")
 
 st.sidebar.markdown("---")
 st.sidebar.markdown(
-    "Source: [The Mortgage Reports](https://themortgagereports.com/today)"
+    "Source: [Bankrate](https://www.bankrate.com/mortgages/mortgage-rates/#mortgage-industry-insights)"
 )
 
 st.title("Welcome to Fun Money Tools")
